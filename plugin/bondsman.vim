@@ -35,7 +35,7 @@ endfunction
 function! s:GitIsModified() abort
     let rvalue = 0
     " First try to see if we actually have a .git dir
-    let has_git = FindGit('dir')
+    let has_git = s:FindGit('dir')
     if (has_git == "")
         return rvalue
     else
@@ -60,7 +60,7 @@ endfunction
 
 
 function! s:RepoHead() abort
-  let path = FindGit('repo') . '/HEAD'
+  let path = s:FindGit('repo') . '/HEAD'
   if ! filereadable(path)
       return 'NoBranch'
   endif
