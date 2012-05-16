@@ -7,16 +7,18 @@
 
 autocmd BufWritePost,BufReadPost,BufNewFile,BufEnter * call s:SetGitModified()
 
+
 function! s:SetGitModified() abort
   if !exists('b:git_dir')
     return ''
   endif
-  let repo_name = RepoHead()
-  let modified = GitIsModified() ? '*' : ''
+  let repo_name = s:RepoHead()
+  let modified = s:GitIsModified() ? '*' : ''
   let b:git_statusline = '['.repo_name.modified.']'
 endfunction
 
-function! FindGit(type) abort
+
+function! s:FindGit(type) abort
     let found = finddir(".git", ".;")
     if (found !~ '.git')
         return ""
@@ -29,7 +31,8 @@ function! FindGit(type) abort
     endif
 endfunction
 
-function! GitIsModified() abort
+
+function! s:GitIsModified() abort
     let rvalue = 0
     " First try to see if we actually have a .git dir
     let has_git = FindGit('dir')
@@ -55,7 +58,8 @@ function! GitIsModified() abort
     endif
 endfunction
 
-function! RepoHead() abort
+
+function! s:RepoHead() abort
   let path = FindGit('repo') . '/HEAD'
   if ! filereadable(path)
       return 'NoBranch'
@@ -71,16 +75,15 @@ function! RepoHead() abort
   return repo_name
 endfunction
 
-function! GitStatusline() abort
-  " Note: Works just as long as fugitive is installed
-  " should remove the depedency
+
+function! bondsman#Bail() abort
   if exists('b:git_statusline')
       return b:git_statusline
   endif
   if !exists('b:git_dir')
       return ''
   else
-      let repo_name = RepoHead()
+      let repo_name = s:RepoHead()
       return '['.repo_name.']'
   endif
   return ''
