@@ -36,6 +36,7 @@ function! s:GitIsModified() abort
     let rvalue = 0
     " First try to see if we actually have a .git dir
     let has_git = s:FindGit('dir')
+
     if (has_git == "")
         return rvalue
     else
@@ -43,7 +44,7 @@ function! s:GitIsModified() abort
         " repository, which is why we call it only at certain times
         " and not always all the time
         let original_dir = getcwd()
-        if original_dir
+        if (original_dir != '')
             exe "cd " . has_git
             let cmd = "git status -s 2> /dev/null""
             let out = system(cmd)
