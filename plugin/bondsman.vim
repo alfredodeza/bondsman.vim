@@ -4,6 +4,9 @@
 " License:     MIT
 "============================================================================
 
+if exists("g:loaded_bondsman") || &cp 
+  finish
+endif
 
 autocmd BufWritePost,BufReadPost,BufNewFile,BufEnter * call s:SetGitModified()
 
