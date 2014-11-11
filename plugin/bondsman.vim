@@ -48,14 +48,14 @@ function! s:GitIsModified() abort
         " and not always all the time
         let original_dir = getcwd()
         if (original_dir != '')
-            exe "cd " . has_git
+            exe "cd " . substitute(has_git, ' ', '\\ ', '')
             let cmd = "git status -s 2> /dev/null""
             let out = system(cmd)
             if out != ""
                 let rvalue = 1
             endif
             " Finally get back to where we initially where
-            exe "cd " . original_dir
+            exe "cd " . substitute(original_dir, ' ', '\\ ', '')
             return rvalue
         else
             return ''
